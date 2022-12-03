@@ -30,6 +30,7 @@ rucksacks.each do |r|
   sum1 += priorities[shared_item]
 end
 
+# 7903
 puts sum1
 
 # Part 2
@@ -57,4 +58,5 @@ elf_groups.each do |group|
   sum2 += priorities[shared_item]
 end
 
+# 2548
 puts sum2
