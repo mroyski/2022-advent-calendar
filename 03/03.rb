@@ -7,12 +7,10 @@ lower_hash = Hash[('a'..'z').to_a.zip((1..26).to_a)]
 upper_hash = Hash[('A'..'Z').to_a.zip((27..52).to_a)]
 priorities = lower_hash.merge(upper_hash)
 
-puts priorities
-
 rucksacks = input.split("\n")
 
-# rucksacks = ['vJrwpWtwJgWrhcsFMMfFFhFp']
-sum = 0
+# Part 1
+sum1 = 0
 rucksacks.each do |r|
   mid = r.size / 2
   comp1 = r[0..mid - 1]
@@ -29,7 +27,34 @@ rucksacks.each do |r|
     index += 1
   end
 
-  sum += priorities[shared_item]
+  sum1 += priorities[shared_item]
 end
 
-puts sum
+puts sum1
+
+# Part 2
+sum2 = 0
+elf_groups = rucksacks.each_slice(3).to_a
+
+elf_groups.each do |group|
+  sack_sizes = group.map(&:size)
+  largest_sack = sack_sizes.max
+  to_iterate = sack_sizes.index(largest_sack)
+
+  shared_item = nil
+
+  group[to_iterate].split('').each do |char|
+    shared_count = 0
+
+    group.each do |str|
+      shared_count += 1 if str.include?(char)
+      if shared_count == 3
+        shared_item = char
+        break
+      end
+    end
+  end
+  sum2 += priorities[shared_item]
+end
+
+puts sum2
