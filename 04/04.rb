@@ -4,13 +4,12 @@ file = File.open('input.txt')
 input = file.read
 
 rows = input.split("\n")
-contained_pairs = 0
 
 # Part 1
+contained_pairs = 0
+
 rows.each do |row|
   sections = row.split(',')
-  left_section = sections[0]
-  right_section = sections[1]
 
   left_nums = sections[0].split('-')
   right_nums = sections[1].split('-')
@@ -28,12 +27,11 @@ end
 # 582
 puts contained_pairs
 
-overlapping_pairs = 0
 # Part 2
+overlapping_pairs = 0
+
 rows.each do |row|
   sections = row.split(',')
-  left_section = sections[0]
-  right_section = sections[1]
 
   left_nums = sections[0].split('-')
   right_nums = sections[1].split('-')
