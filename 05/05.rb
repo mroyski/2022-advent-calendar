@@ -4,10 +4,8 @@ file = File.open('input.txt')
 input = file.read
 
 stacks = {}
-lines = input.split("\n")
+lines = input.split("\n\n")[0].split("\n")
 lines.each do |line|
-  break unless line.include?('[')
-
   crates = line.scan(/.{1,4}/)
 
   crates.each_with_index do |crate, index|
@@ -27,16 +25,17 @@ commands.each do |command|
   from = todo[3].to_i
   to = todo[5].to_i
 
-  #   Part 1
-  #   count.times do
-  #     crate = stacks[from].pop
-  #     stacks[to].push(crate)
-  #   end
-
-  #   Part 2
-  crates = stacks[from].pop(count)
-  stacks[to].concat(crates)
-  stacks[to].flatten
+  case ARGV[-1]
+  when '1'
+    count.times do
+      crate = stacks[from].pop
+      stacks[to].push(crate)
+    end
+  when '2'
+    crates = stacks[from].pop(count)
+    stacks[to].concat(crates)
+    stacks[to].flatten
+  end
 end
 
 ordered_keys = stacks.keys.sort
