@@ -34,7 +34,6 @@ commands.each do |command|
   when '2'
     crates = stacks[from].pop(count)
     stacks[to].concat(crates)
-    stacks[to].flatten
   end
 end
 
