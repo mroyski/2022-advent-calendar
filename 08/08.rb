@@ -33,7 +33,7 @@ input.each_with_index do |line, i|
     below_view = tree > below_max ? below.size : below.index { |v| v >= tree }.to_i + 1
 
     left_view = tree > left_max ? j : left.reverse.index { |v| v >= tree }.to_i + 1
-    right_view = tree > right_max ? line.size - j - 1 : right.index { |v| v >= tree }.to_i + 1
+    right_view = tree > right_max ? right.size : right.index { |v| v >= tree }.to_i + 1
 
     score = above_view * below_view * left_view * right_view
     max_scenic_score = score > max_scenic_score ? score : max_scenic_score
