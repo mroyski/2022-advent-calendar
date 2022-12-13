@@ -53,11 +53,35 @@ input.each do |line|
   end
 end
 
-puts @head.x
-puts @head.y
-
-puts @tail.x
-puts @tail.y
-
 # 6642
+puts visits.size
+
+#Part 2
+
+knots = {}
+knot_num = 1
+10.times do
+  knots[knot_num] = Knot.new
+  knot_num += 1
+end
+
+visits = Hash.new(0)
+@tail = Knot.new
+@head = Knot.new
+
+input.each do |line|
+  line.split(' ')[1].to_i.times do
+    knots.each do |key, val|
+      if key == 1
+        val.move(line.split(' ')[0])
+        next
+      end
+      val.follow(knots[key - 1])
+
+      visits["#{val.x},#{val.y}"] += 1 if key == 10
+    end
+  end
+end
+
+# 2765
 puts visits.size
