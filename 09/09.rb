@@ -1,68 +1,63 @@
 # frozen_string_literal: true
 
-file = File.open('input.txt')
-input = file.read.split("\n")
-visits = Hash.new(0)
-@head = { x: 0, y: 0 }
-@tail = { x: 0, y: 0 }
+class Knot
+  attr_accessor :x, :y
 
-def tail_stays?
-  ((@tail[:x] - 1)..(@tail[:x] + 1)).include?(@head[:x]) &&
-    ((@tail[:y] - 1)..(@tail[:y] + 1)).include?(@head[:y])
-end
+  def initialize
+    @x = 0
+    @y = 0
+  end
 
-def tail_position
-  "#{@tail[:x]},#{@tail[:y]}".to_sym
-end
-
-visits[tail_position] += 1
-
-input.each do |line|
-  direction = line.split(' ')[0]
-  move_times = line.split(' ')[1].to_i
-
-  move_times.times do
+  def move(direction)
     case direction
     when 'R'
-      @head[:x] += 1
-
-      next if tail_stays?
-
-      @tail[:y] = @head[:y] if @tail[:y] != @head[:y]
-
-      @tail[:x] = @head[:x] - 1
-      visits[tail_position] += 1
+      @x += 1
     when 'L'
-      @head[:x] -= 1
-
-      next if tail_stays?
-
-      @tail[:y] = @head[:y] if @tail[:y] != @head[:y]
-
-      @tail[:x] = @head[:x] + 1
-      visits[tail_position] += 1
+      @x -= 1
     when 'U'
-      @head[:y] += 1
-
-      next if tail_stays?
-
-      @tail[:x] = @head[:x] if @tail[:x] != @head[:x]
-
-      @tail[:y] = @head[:y] - 1
-      visits[tail_position] += 1
+      @y += 1
     when 'D'
-      @head[:y] -= 1
+      @y -= 1
+    end
+  end
 
-      next if tail_stays?
+  def follow(knot)
+    x_distance = (knot.x - @x).abs
+    y_distance = (knot.y - @y).abs
+    distance = [x_distance, y_distance].max
 
-      @tail[:x] = @head[:x] if @tail[:x] != @head[:x]
+    if distance > 1
+      x_direction = knot.x - @x
+      y_direction = knot.y - @y
 
-      @tail[:y] = @head[:y] + 1
-      visits[tail_position] += 1
+      @x += x_distance == 2 ? x_direction / 2 : x_direction
+      @y += y_distance == 2 ? y_direction / 2 : y_direction
     end
   end
 end
 
-puts visits.size
+file = File.open('input.txt')
+input = file.read.split("\n")
 
-# 6642 TOO HIGH
+# Part 1
+visits = Hash.new(0)
+@tail = Knot.new
+@head = Knot.new
+
+input.each do |line|
+  line.split(' ')[1].to_i.times do
+    @head.move(line.split(' ')[0])
+    @tail.follow(@head)
+
+    visits["#{@tail.x},#{@tail.y}"] += 1
+  end
+end
+
+puts @head.x
+puts @head.y
+
+puts @tail.x
+puts @tail.y
+
+# 6642
+puts visits.size
