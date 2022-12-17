@@ -28,13 +28,9 @@ class Monkey
       worry_level = operate
       worry_level /= 3
 
-      #   puts "monkey: #{@id}, item: #{item}, worry: #{worry_level}"
-
       if worry_level % test_num == 0
-        # puts "throw to monkey #{@true_throw}"
         @@monkeys[@true_throw].items.push(worry_level)
       else
-        # puts "throw to monkey #{@false_throw}"
         @@monkeys[@false_throw].items.push(worry_level)
       end
     end
